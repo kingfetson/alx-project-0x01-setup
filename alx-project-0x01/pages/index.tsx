@@ -22,3 +22,21 @@ const Home: React.FC = () => {
 }
 
 export default Home;
+
+import Footer from "@/components/layout/Footer";
+// ... other imports
+
+const Users = ({ posts }: UsersPageProps) => {
+  return (
+    <div className="flex flex-col min-h-screen">
+      <Header />
+      <main className="flex-grow p-4">
+        {/* your content */}
+      </main>
+      <Footer />
+    </div>
+  );
+};
+
+export default Users;
+
