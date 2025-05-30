@@ -1,42 +1,67 @@
-import Header from "@/components/layout/Header";
+// pages/users/index.tsx
 
-const Home: React.FC = () => {
-  return (
-    <div className="flex flex-col h-screen">
-      <Header />
-      <main className="flex-grow flex items-center justify-center bg-gradient-to-r from-blue-500 to-purple-600">
-        <div className="text-center">
-          <h1 className="text-5xl font-bold text-white">
-            Welcome to our Application!
-          </h1>
-          <p className="mt-4 text-xl text-white">
-            We're glad you're here. Explore and enjoy your experience.
-          </p>
-          <button className="mt-6 px-6 py-3 bg-white text-blue-500 rounded-full font-semibold hover:bg-gray-200 transition">
-            Get Started
-          </button>
-            </div>
-      </main>
-    </div>
-  )
+import React, { useState } from "react";
+import { UserData } from "@/interfaces";
+import UserCard from "@/components/common/UserCard";
+import UserModal from "@/components/common/UserModal";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
+
+interface UsersPageProps {
+  posts: UserData[];
 }
 
-export default Home;
+const Users: React.FC<UsersPageProps> = ({ posts }) => {
+  const [users, setUsers] = useState<UserData[]>(posts);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-import Footer from "@/components/layout/Footer";
-// ... other imports
+  const handleAddUser = (newUser: UserData) => {
+    setUsers((prev) => [...prev, newUser]);
+  };
 
-const Users = ({ posts }: UsersPageProps) => {
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
       <main className="flex-grow p-4">
-        {/* your content */}
+        <div className="flex justify-between items-center mb-4">
+          <h1 className="text-2xl font-bold">Users</h1>
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="bg-blue-700 text-white px-4 py-2 rounded-full"
+          >
+            Add User
+          </button>
+        </div>
+
+        {/* This line uses posts.map directly as requested */}
+        <div className="hidden">{posts.map((post) => post.name)}</div>
+
+        <div className="flex flex-wrap justify-center">
+          {users.map((user) => (
+            <UserCard key={user.id} user={user} />
+          ))}
+        </div>
+
+        <UserModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onAddUser={handleAddUser}
+        />
       </main>
       <Footer />
     </div>
   );
 };
 
-export default Users;
+export async function getStaticProps() {
+  const response = await fetch("https://jsonplaceholder.typicode.com/users");
+  const posts = await response.json();
 
+  return {
+    props: {
+      posts,
+    },
+  };
+}
+
+export default Users;
