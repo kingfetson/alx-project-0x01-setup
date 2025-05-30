@@ -1,8 +1,7 @@
 // interfaces/index.ts
 
-// Interface for User Data (used in props and forms)
 export interface UserProps {
-  id?: number; // optional for new user submissions
+  id: number; // ✅ Required field
   name: string;
   username: string;
   email: string;
@@ -25,9 +24,8 @@ export interface UserProps {
   };
 }
 
-// Interface for User Modal Props
 export interface UserModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (post: UserProps) => void; // ✅ This line satisfies the requirement
+  onSubmit: (user: UserProps) => void;
 }
