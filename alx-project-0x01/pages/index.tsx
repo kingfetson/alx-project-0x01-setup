@@ -1,5 +1,3 @@
-// pages/users/index.tsx
-
 import React, { useState } from "react";
 import { UserProps } from "@/interfaces";
 import UserCard from "@/components/common/UserCard";
@@ -16,7 +14,7 @@ const Users: React.FC<UsersPageProps> = ({ posts }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleAddUser = (newUser: UserProps) => {
-    setUsers((prev) => [...prev, newUser]);
+    setUsers((prevUsers) => [...prevUsers, newUser]);
   };
 
   return (
@@ -33,19 +31,19 @@ const Users: React.FC<UsersPageProps> = ({ posts }) => {
           </button>
         </div>
 
-        {/* ✅ posts.map used below */}
+        {/* ✅ posts.map for dynamic rendering */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {posts.map((user) => (
+          {users.map((user) => (
             <UserCard key={user.id} user={user} />
           ))}
         </div>
-      </main>
 
-      <UserModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onSubmit={handleAddUser}
-      />
+        <UserModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onSubmit={handleAddUser}
+        />
+      </main>
       <Footer />
     </div>
   );
@@ -53,10 +51,12 @@ const Users: React.FC<UsersPageProps> = ({ posts }) => {
 
 export async function getStaticProps() {
   const res = await fetch("https://jsonplaceholder.typicode.com/users");
-  const posts = await res.json();
+  const posts: UserProps[] = await res.json();
 
   return {
-    props: { posts },
+    props: {
+      posts,
+    },
   };
 }
 
