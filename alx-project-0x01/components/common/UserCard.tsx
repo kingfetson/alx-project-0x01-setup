@@ -1,29 +1,31 @@
 // components/common/UserCard.tsx
 
 import React from "react";
-import { UserProps } from "@/interfaces";
+import { UserData } from "@/interfaces";
 
-const UserCard: React.FC<{ user: UserProps }> = ({ user }) => {
+interface UserProps {
+  user: UserData;
+}
+
+const UserCard: React.FC<UserProps> = ({ user }) => {
   return (
-    <div className="bg-white shadow-md rounded-lg p-6 m-4 w-full max-w-md">
-      <h2 className="text-xl font-bold mb-2 text-blue-800">{user.name}</h2>
-      <p className="text-gray-700">Username: {user.username}</p>
-      <p className="text-gray-700">Email: {user.email}</p>
-      <p className="text-gray-700">Phone: {user.phone}</p>
-      <p className="text-gray-700">Website: {user.website}</p>
-
-      <div className="mt-4">
-        <h3 className="font-semibold text-gray-800">Address</h3>
-        <p className="text-sm text-gray-600">
-          {user.address.street}, {user.address.suite},<br />
-          {user.address.city}, {user.address.zipcode}
+    <div className="bg-white rounded-lg shadow-md p-4 m-2 w-80">
+      <h2 className="text-xl font-bold">{user.name}</h2>
+      <p className="text-sm text-gray-600">@{user.username}</p>
+      <p className="text-sm text-gray-800 mt-2">{user.email}</p>
+      <div className="mt-2 text-sm">
+        <p>
+          <strong>Phone:</strong> {user.phone}
         </p>
-      </div>
-
-      <div className="mt-4">
-        <h3 className="font-semibold text-gray-800">Company</h3>
-        <p className="text-sm text-gray-600">{user.company.name}</p>
-        <p className="text-sm italic text-gray-500">{user.company.catchPhrase}</p>
+        <p>
+          <strong>Website:</strong> {user.website}
+        </p>
+        <p>
+          <strong>Company:</strong> {user.company.name}
+        </p>
+        <p>
+          <strong>City:</strong> {user.address.city}
+        </p>
       </div>
     </div>
   );
