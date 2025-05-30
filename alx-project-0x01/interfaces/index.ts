@@ -1,23 +1,8 @@
 // interfaces/index.ts
 
-// For post data
-export interface PostData {
-  userId: number;
-  id?: number;
-  title: string;
-  body: string;
-}
-
-// Props for PostModal component
-export interface PostModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onSubmit: (post: PostData) => void;
-}
-
-// For user data
-export interface UserData {
-  id: number;
+// Reuse this for both display and form data
+export interface UserProps {
+  id?: number; // optional for new users
   name: string;
   username: string;
   email: string;
@@ -40,9 +25,8 @@ export interface UserData {
   };
 }
 
-// Props for UserModal component
 export interface UserModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onAddUser: (user: UserData) => void;
+  onSubmit: (user: UserProps) => void; // <- ✅ This is the missing line
 }
