@@ -1,6 +1,7 @@
 // pages/users/index.tsx
 
 import React, { useState } from "react";
+import { GetStaticProps } from "next";
 import { UserData } from "@/interfaces";
 import UserCard from "@/components/common/UserCard";
 import UserModal from "@/components/common/UserModal";
@@ -32,12 +33,8 @@ const Users: React.FC<UsersPageProps> = ({ posts }) => {
             Add User
           </button>
         </div>
-
-        {/* This line uses posts.map directly as requested */}
-        <div className="hidden">{posts.map((post) => post.name)}</div>
-
         <div className="flex flex-wrap justify-center">
-          {users.map((user) => (
+          {posts.map((user) => (
             <UserCard key={user.id} user={user} />
           ))}
         </div>
@@ -53,15 +50,15 @@ const Users: React.FC<UsersPageProps> = ({ posts }) => {
   );
 };
 
-export async function getStaticProps() {
-  const response = await fetch("https://jsonplaceholder.typicode.com/users");
-  const posts = await response.json();
+export const getStaticProps: GetStaticProps = async () => {
+  const res = await fetch("https://jsonplaceholder.typicode.com/users");
+  const posts: UserData[] = await res.json();
 
   return {
     props: {
       posts,
     },
   };
-}
+};
 
 export default Users;
