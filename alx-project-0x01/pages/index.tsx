@@ -31,12 +31,13 @@ const Users: React.FC<UsersPageProps> = ({ posts }) => {
           </button>
         </div>
 
-        {/* ✅ posts.map for dynamic rendering */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {posts.map((user) => (
-            <UserCard key={user.id} user={user} />
-          ))}
-        </div>
+       
+{/* ✅ posts.map for dynamic rendering */}
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+  {posts.map((user) => (
+    <UserCard key={user.id} user={user} />
+  ))}
+</div>
 
         <UserModal
           isOpen={isModalOpen}
